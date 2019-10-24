@@ -9,6 +9,11 @@ import (
 	"time"
 )
 
+type Job func()
+
+
+
+
 func TestServeNoneStop_SlavePool(t *testing.T){
 	sp:= NewPool(2, func(_ interface{}) {
 		time.Sleep(time.Second)
@@ -77,6 +82,8 @@ func  TestServe_SlavePool(t *testing.T)  {
 }
 
 func TestPanic(t *testing.T){
+	show(1,2,3,4,5,6,7,2)
+
 	fmt.Println("begin")
 	defer func() {
 		p:=recover()
@@ -86,4 +93,21 @@ func TestPanic(t *testing.T){
 	panic(errors.New("this is en error"))
 	fmt.Println("end")
 
+}
+
+func show(args ...int){
+	fmt.Println(len(args))
+	fmt.Println(reflect.TypeOf(args))
+
+}
+
+func TestTimeout (t *testing.T){
+	for  {
+		select {
+		case <-time.After(time.Second*10):
+			fmt.Println("time")
+
+		}
+
+	}
 }
